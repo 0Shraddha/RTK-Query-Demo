@@ -1,51 +1,44 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // Make sure it's '@reduxjs/toolkit/query/react'
 
 export const moviesApiSlice = createApi({
-    reducerPath: "movies",
-    baseQuery: fetchBaseQuery({
-        baseUrl: "https://localhost:8080",
+  reducerPath: "movies",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:8080",
+  }),
+  endpoints: (builder) => ({
+    getMovies: builder.query({
+      query: () => "/movies",
     }),
-    endpoints : (builder) => {
+    addMovie: builder.mutation({
+      query: (movie) => ({
+        url: "/movies",
+        method: "POST",
+        body: movie,
+      }),
+    }),
+    updateMovie: builder.mutation({
+      query: (movie) => {
+        const { id, ...body } = movie;
         return {
-            getMovies: builder.query({
-                query: () => `/movies`,
-            }),
+          url: `/movies/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+    }),
+    deleteMovie: builder.mutation({
+      query: ({ id }) => ({
+        url: `/movies/${id}`,
+        method: "DELETE",
+      }),
+    }),
+  }),
+});
 
-            addMovies: builder.mutation({
-                query: (movie) => ({
-                    url: "/movies",
-                    method: "POST",
-                    body: movie,
-                })
-            }),
-
-            updateMovie: builder.mutation({
-                query: (movie) => {
-                    const { id, ...body } = movie;
-                    return {
-                        url: `movies/${id}`,
-                        method: "PUT",
-                        body
-                    }
-                }
-            }),
-
-            deleteMovie: builder.mutation({
-                query: ({ id }) => ({
-                    url: `/movies/${id}`,
-                    method: "DELETE",
-                    body: id
-                })
-            })
-
-
-        }
-    }
-})
-
+// ✅ Export hooks — names MUST match the endpoint function names exactly
 export const {
-    useGetMoviesQuery,
-    useAddMovieMutation,
-    useDeleteMovieMutation,
-    useUpdateMoviesMutation,
+  useGetMoviesQuery,
+  useAddMovieMutation,
+  useUpdateMovieMutation,
+  useDeleteMovieMutation,
 } = moviesApiSlice;

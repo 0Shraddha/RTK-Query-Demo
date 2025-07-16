@@ -39,3 +39,15 @@ This is required for all the caching functionality and all the other benefits th
 # 4
 Add redux store to main.jsx or index.jsx
 ![alt text](image-2.png)
+
+# 5
+Now we will create a Movies component and use RTK Query to handle CRUD operations.
+1. We will import the useGetMoviesQuery, useAddMovieMutation, and useDeleteMovie functions from the moviesApiSlice which will be used for fetching, adding, and deleting movies, respectively.
+2. We defined the state variables: title, year, thumbnail and desc
+3. The useGetMoviesQuery hook fetches the movie data when the component mounts. The hook returns an object with several properties, but we're focusing on three properties: data aliased as movies, isLoading, and isError.
+while,
+The useAddMovieMutation and useDeleteMovieMutation hooks return two functions: addMovie and deleteMovie, respectively.
+4. The handleSubmit function handles the submission of the form. When the form is submitted, the addMovie function is called with the new movie details.
+5. If everything goes well, the main JSX structure of the component is returned, which includes:
+    - a form for adding new movies.
+    - a list of movies rendered using the MovieCard component. EachMovieCard is passed the individual movie data along with the deleteMovie function to handle deletions.
